@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import requests
 
 from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
 from barcode import Code39
@@ -59,6 +60,9 @@ def get_barcode(request, barcode):
     b = BoughtTicket.objects.get(code=barcode)
     if b:
         people += 1
+        r = requests.get('http://192.168.1.10/plus/')
+        print("-----------------------------------------")
+        print(r.status_code )
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=404)
